@@ -21,13 +21,13 @@ services:
     restart: unless-stopped
     volumes:
       - zigbee2mqtt:/app/data
-      - /run/udev:/run/udev:ro
     ports:
       - 8080:8080
     environment:
       - TZ=Europe/Berlin
     devices:
       - /dev/ttyUSB0:/dev/ttyUSB0
+      - /run/udev:/run/udev:ro
     depends_on:
       - mosquitto
 
