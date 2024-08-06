@@ -10,7 +10,7 @@ services:
     image: eclipse-mosquitto
     restart: unless-stopped
     volumes:
-      - mosquitto-data:/mosquitto
+      - mosquitto:/mosquitto
     ports:
       - 1883:1883
       - 9001:9001
