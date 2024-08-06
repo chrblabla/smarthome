@@ -1,0 +1,47 @@
+version: '2.4'
+
+volumes:
+  mosquitto: {}
+  zigbee2mqtt: {}
+  homebridge: {}
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto
+    restart: unless-stopped
+    volumes:
+      - mosquitto-data:/mosquitto
+    ports:
+      - 1883:1883
+      - 9001:9001
+    command: "mosquitto -c /mosquitto-no-auth.conf"
+
+  zigbee2mqtt:
+    image: koenkk/zigbee2mqtt
+    restart: unless-stopped
+    volumes:
+      - zigbee2mqtt:/app/data
+      - /run/udev:/run/udev:ro
+    ports:
+      - 8080:8080
+    environment:
+      - TZ=Europe/Berlin
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+    depends_on:
+      - mosquitto
+
+  homebridge:
+    image: homebridge/homebridge
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - HOMEBRIDGE_CONFIG_UI=0
+      - HOMEBRIDGE_CONFIG_UI_PORT=8581
+      - TZ=Europe/Berlin
+    volumes:
+      - homebridge:/homebridge
+    depends_on:
+      - mosquitto

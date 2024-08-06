@@ -1,0 +1,16 @@
+name: smarthome
+type: sw.application
+description: A Homebridge installation with MQTT and zigbee2mqtt
+assets:
+  repository:
+    type: blob.asset
+    data:
+      url: 'https://github.com/chrblabla/smarthome'
+data:
+  applicationEnvironmentVariables:
+    - SOUND_VOLUME: 75
+    - AUDIO_OUTPUT: AUTO
+  defaultDeviceType: raspberry-pi4-64
+  supportedDeviceTypes:
+    - raspberrypi4-64
+version: 0.1.0
