@@ -1,0 +1,6 @@
+homeassistant
+homebridge
+zigbee2mqtt
+home_assistant_backup*
+vesync/.env
+backup

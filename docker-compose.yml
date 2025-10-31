@@ -4,6 +4,7 @@ volumes:
   mosquitto: {}
   zigbee2mqtt: {}
   homebridge: {}
+  homeassistant: {}
 
 services:
   mosquitto:
@@ -27,7 +28,6 @@ services:
       - TZ=Europe/Berlin
     devices:
       - /dev/ttyUSB0:/dev/ttyUSB0
-      - /run/udev:/run/udev:ro
     depends_on:
       - mosquitto
 
@@ -45,3 +45,15 @@ services:
       - homebridge:/homebridge
     depends_on:
       - mosquitto
+
+  homeassistant:
+    image: homeassistant/home-assistant
+    volumes:
+      - homeassistant:/config
+    ports:
+      - 8123:8123
+
+  vesync:
+    build: vesync
+    #volumes:
+    #  - vesync:/app
