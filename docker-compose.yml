@@ -7,53 +7,62 @@ volumes:
   homeassistant: {}
 
 services:
-  mosquitto:
-    image: eclipse-mosquitto
-    restart: unless-stopped
-    volumes:
-      - mosquitto:/mosquitto
-    ports:
-      - 1883:1883
-      - 9001:9001
-    command: "mosquitto -c /mosquitto-no-auth.conf"
+  # mosquitto:
+  #   image: eclipse-mosquitto
+  #   restart: unless-stopped
+  #   volumes:
+  #     - mosquitto:/mosquitto
+  #   ports:
+  #     - 1883:1883
+  #     - 9001:9001
+  #   command: "mosquitto -c /mosquitto-no-auth.conf"
 
-  zigbee2mqtt:
-    image: koenkk/zigbee2mqtt
-    restart: unless-stopped
-    volumes:
-      - zigbee2mqtt:/app/data
-    ports:
-      - 8080:8080
-    environment:
-      - TZ=Europe/Berlin
-    devices:
-      - /dev/ttyUSB0:/dev/ttyUSB0
-    depends_on:
-      - mosquitto
+  # zigbee2mqtt:
+  #   image: koenkk/zigbee2mqtt
+  #   restart: unless-stopped
+  #   volumes:
+  #     - zigbee2mqtt:/app/data
+  #   ports:
+  #     - 8080:8080
+  #   environment:
+  #     - TZ=Europe/Berlin
+  #   # devices:
+  #   #   - /dev/ttyUSB0:/dev/ttyUSB0
+  #   depends_on:
+  #     - mosquitto
 
-  homebridge:
-    image: homebridge/homebridge
-    restart: unless-stopped
-    network_mode: host
-    environment:
-      - PGID=1000
-      - PUID=1000
-      - HOMEBRIDGE_CONFIG_UI=0
-      - HOMEBRIDGE_CONFIG_UI_PORT=8581
-      - TZ=Europe/Berlin
-    volumes:
-      - homebridge:/homebridge
-    depends_on:
-      - mosquitto
+  # homebridge:
+  #   image: homebridge/homebridge
+  #   restart: unless-stopped
+  #   network_mode: host
+  #   environment:
+  #     - PGID=1000
+  #     - PUID=1000
+  #     - HOMEBRIDGE_CONFIG_UI=0
+  #     - HOMEBRIDGE_CONFIG_UI_PORT=8581
+  #     - TZ=Europe/Berlin
+  #   volumes:
+  #     - homebridge:/homebridge
+  #   depends_on:
+  #     - mosquitto
 
   homeassistant:
-    image: homeassistant/home-assistant
+    image: homeassistant/home-assistant:2025.11
     volumes:
       - homeassistant:/config
-    ports:
-      - 8123:8123
+    # ports:
+    #   - 8123:8123 # for Home Assistant UI
+    #   - 21063:21063 # for HomeKit integration
+    #   - 21064:21064 # for HomeKit integration
+    network_mode: host
+    # depends_on:
+    #   - mosquitto
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
 
-  vesync:
-    build: vesync
+  # vesync:
+  #   build: vesync
+  #   depends_on:
+  #     - mosquitto
     #volumes:
-    #  - vesync:/app
+    #  - ./vesync:/app
