@@ -47,7 +47,7 @@ services:
   #     - mosquitto
 
   homeassistant:
-    image: homeassistant/home-assistant:2025.12.4
+    image: homeassistant/home-assistant:2026.1.2
     volumes:
       - homeassistant:/config
     # ports:
