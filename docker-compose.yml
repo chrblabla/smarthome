@@ -5,7 +5,7 @@ volumes:
 
 services:
   homeassistant:
-    image: homeassistant/home-assistant:2026.3.3
+    image: homeassistant/home-assistant:2026.3.4
     volumes:
       - homeassistant:/config
     network_mode: host
