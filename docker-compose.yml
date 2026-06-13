@@ -5,7 +5,7 @@ volumes:
 
 services:
   homeassistant:
-    image: homeassistant/home-assistant:2026.5.2
+    image: homeassistant/home-assistant:2026.6.3
     volumes:
       - homeassistant:/config
     network_mode: host
@@ -16,3 +16,9 @@ services:
     build: nginx
     network_mode: host
     restart: unless-stopped
+
+  mqtt:
+    image: eclipse-mosquitto
+    command: mosquitto -c /mosquitto-no-auth.conf
+    ports:
+      - 1883:1883
